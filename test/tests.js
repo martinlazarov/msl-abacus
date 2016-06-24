@@ -20,10 +20,10 @@ describe("A suite", function() {
             var scopeData = compiled.isolateScope().data,
                 digits = compiled.find('.digit'),
                 operators = compiled.find('.operator'),
-                firstNumber = digits[Math.floor((Math.random() * 10))],
-                choosenOperator = operators[Math.floor((Math.random() * 3))],
-                secondNumber = digits[Math.floor((Math.random() * 10))],
-                expression = firstNumber.innerText + choosenOperator.innerText + secondNumber.innerText;
+                firstNumber = digits[5], // 4
+                choosenOperator = operators[1], // *
+                secondNumber = digits[4], // 5
+                expression = firstNumber.innerText + choosenOperator.innerText + secondNumber.innerText; // 4*5
 
             firstNumber.click();
             choosenOperator.click();
@@ -69,14 +69,16 @@ describe("A suite", function() {
 
         it("should have 4 basic operators", function() {
             var scopeData = compiled.isolateScope().data;
-            var operatorsButtonsCount = 0;
+            var operatorsButtonsCount = 0,
+                operatorsCount = Object.keys(scopeData.operators).length;
+
             angular.forEach(compiled.find('button'), function(button){
                 if(angular.element(button).hasClass('operator')){
                     operatorsButtonsCount++;
                 }
             });
-            expect(scopeData.operators.length).toEqual(4); // + - * /
-            expect(operatorsButtonsCount).toEqual(scopeData.operators.length); // + - * /
+            expect(operatorsCount).toEqual(4); // + - * /
+            expect(operatorsButtonsCount).toEqual(operatorsCount); // + - * /
         });
 
         it("should build an expression", function() {
@@ -167,18 +169,21 @@ describe("A suite", function() {
             expect(compiled.html()).not.toEqual('');
         });
         it("should have data object and operators and advancedOperators arrays", function() {
-            var scopeData = compiled.isolateScope().data;
+            var scopeData = compiled.isolateScope().data,
+                advancedOperatorsCount = Object.keys(scopeData.advancedOperators).length;
+
 
             expect(scopeData).toBeDefined();
             expect(scopeData.operators).toBeDefined();
             expect(scopeData.advancedOperators).toBeDefined();
-            expect(scopeData.advancedOperators.length).toEqual(5);
+            expect(advancedOperatorsCount).toEqual(5);
         });
         it("should have all advanced math buttons", function() {
             var scopeData = compiled.isolateScope().data,
+                advancedOperatorsCount = Object.keys(scopeData.advancedOperators).length,
                 advancedOperators = compiled.find('.advanced-operator');
 
-            expect(advancedOperators.length).toEqual(scopeData.advancedOperators.length);
+            expect(advancedOperators.length).toEqual(advancedOperatorsCount);
         });
 
 

@@ -82,7 +82,7 @@ angular.module('calculator', [
                         '<div class="row">',
                             '<div class="col-md-12">',
                                 '<button type="button" class="btn btn-default col-md-4 mt5 remove-last" ng-click="removeLastChar()"><-</button>',
-                                '<button type="button" class="btn btn-default col-md-4 mt5 clear" ng-click="clearResult()">C</button>',
+                                '<button type="button" class="btn btn-default col-md-4 mt5 clear" ng-click="data.result = \'\'">C</button>',
                             '</div>',
                         '</div>',
                         '<button class="btn btn-primary mt5 digit" ',
@@ -94,6 +94,7 @@ angular.module('calculator', [
                     '<div class="col-md-4 no-padding">',
                         '<button class="btn btn-primary col-md-6 mt5 operator"',
                             'ng-repeat="(operator, value) in data.operators"',
+                            'ng-class="{\'advanced-operator\': data.advancedOperators[operator]}"',
                             'ng-click="triggerOperation(operator)"',
                             'ng-bind="::operator"></button>',
                         '<button class="btn btn-success col-md-12 mt5 equal" ng-click="doTheMath()">=</button>',
@@ -208,7 +209,6 @@ angular.module('calculator', [
                     scope.data.result = 0;
                 }
 
-
                 return scope.data.result;
             };
             var saveResult = function(){
@@ -222,9 +222,6 @@ angular.module('calculator', [
 
                 $rootScope.$emit('calc:saved-result', savedResults);
             };
-            var clearResult = function(){
-                scope.data.result = '';
-            }
             var removeLastChar = function(){
                 scope.data.result = Utils.removeLastChar(scope.data.result);
             }
@@ -234,7 +231,6 @@ angular.module('calculator', [
                 triggerOperation: triggerOperation,
                 doTheMath: doTheMath,
                 saveResult: saveResult,
-                clearResult: clearResult,
                 removeLastChar: removeLastChar
             });
         }
