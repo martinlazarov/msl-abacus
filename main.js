@@ -131,29 +131,28 @@ angular.module('calculator', [
                 },
                 advancedOperators: {
                     'sqrt': {
-                        fn: function(){
-
+                        fn: function(result){
+                            return Math.pow(result, 2);
                         }
                     },
                     'n!': {
-                        fn: function(){
+                        fn: function(input){
+                            var result = 1;
+                            input = Math.round(input);
 
+                            for (var i = 2; i <= input; i++)
+                                result = result * i;
+                            return result;
                         }
                     },
                     'sin': {
-                        fn: function(){
-
-                        }
+                        fn: Math.sin
                     },
                     'cos': {
-                        fn: function(){
-
-                        },
+                        fn: Math.cos,
                     },
                     'tan': {
-                        fn: function(){
-
-                        },
+                        fn: Math.tan,
                     }
                 }
             };
@@ -163,34 +162,9 @@ angular.module('calculator', [
             }
 
             var operationsHandler = function(operationId){
-                var action = scope.data.operators[operationId] || actions['default'];
-                action.fn.apply(scope, [action.args]);
-            }
-            function advancedCalculation(input, operation){
-                debugger;
-                var result = input;
-                if (operation === 'sin') {
-                    return Math.sin(input);
-                }
-                else if(operation === 'cos'){
-                    return Math.cos(input);
-                }
-                else if(operation === 'tan'){
-                    return Math.tan(input);
-                }
-                else if(operation === 'sqrt'){
-                    return Math.pow(doTheMath(), 2);
-                }
-                else if(operation === 'n!'){
-                    var result = 1;
-                    input = Math.round(input);
-
-                    for (var i = 2; i <= input; i++)
-                        result = result * i;
-                    return result;
-                }
-                console.error('[advancedCalculation]', arguments);
-                return result;
+                var action = scope.data.operators[operationId] || actions['default'],
+                    args = action.args || doTheMath();
+                return action.fn.apply(scope, [args]);
             }
 
             var addNumber = function(number){
@@ -210,7 +184,7 @@ angular.module('calculator', [
                     scope.data.result = scope.data.result.slice(0, -1) + opt;
                 }
                 else{
-                    operationsHandler(opt);
+                    scope.data.result = operationsHandler(opt);
                 }
             };
             var doTheMath = function(){
