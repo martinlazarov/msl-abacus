@@ -104,13 +104,13 @@ angular.module('calculator', [
         ].join(''),
         // templateUrl: 'tpls/calculator.tpl.html',
         link: function(scope){
+
             var basicOperation = function(op, input){
                 scope.data.result += op;
                 return scope.data.result;
             }
             scope.data = {
                 result: '',
-                small: '',
                 numbers: [9, 8, 7, 6, 5, 4, 3, 2, 1, 0, '.'],
                 operators: {
                     '/': {
