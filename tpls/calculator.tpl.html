@@ -1,0 +1,36 @@
+<div class="col-md-12 calculator">
+	<!-- <input type="text" ng-model="data.small" class="form-control small-text" disabled /> -->
+	<input type="text" ng-model="data.result" class="form-control" disabled />
+	
+	<button type="button" class="btn btn-warning col-md-8 col-md-offset-2 mt5" ng-click="saveResult()">Save</button>
+	<div class="row">
+		<div class="col-md-8">
+			<div class="row">
+				<div class="col-md-12">
+					<button type="button" class="btn btn-default col-md-4 mt5 remove-last" ng-click="removeLastChar()"><-</button>
+					<button type="button" class="btn btn-default col-md-4 mt5 clear" ng-click="clearResult()">C</button>
+				</div>
+			</div>
+			<button class="btn btn-primary mt5 digit" 
+				ng-repeat="number in [9, 8, 7, 6, 5, 4, 3, 2, 1, 0, '.']"
+				ng-class="{'col-md-8': number == 0, 'col-md-4': number != 0}"
+				ng-click="addNumber(number)"
+				ng-bind="::number"></button>
+		</div>
+		<div class="col-md-4 no-padding">
+			<button class="btn btn-primary col-md-6 mt5 operator" 
+				ng-class="{'col-md-offset-right-6': mode != 'advanced'}"
+				ng-repeat="operator in data.operators"
+				ng-click="triggerOperation(operator)"
+				ng-bind="::operator"></button>
+
+			<button class="btn btn-default col-md-6 mt5 advanced-operator" 
+				ng-if="mode == 'advanced'"
+				ng-repeat="operator in data.advancedOperators"
+				ng-click="triggerOperation(operator)"
+				ng-bind="::operator"></button>
+
+			<button class="btn btn-success col-md-12 mt5 equal" ng-click="doTheMath()">=</button>
+		</div>
+	</div>
+</div>
